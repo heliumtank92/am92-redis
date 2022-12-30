@@ -1,6 +1,6 @@
 {
   "name": "@am92/redis",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Redis SDK",
   "type": "module",
   "main": "src/RedisSdk.mjs",
@@ -28,7 +28,7 @@
     "./redisClientManager": "./src/redisClientManager.mjs"
   },
   "dependencies": {
-    "redis": "^4.5.0"
+    "redis": "^4.5.1"
   },
   "keywords": [
     "redis",
