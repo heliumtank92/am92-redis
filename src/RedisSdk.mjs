@@ -13,6 +13,7 @@ export default class RedisSdk {
     this.disconnect = this.disconnect.bind(this)
     this.getClient = this.getClient.bind(this)
     this.prefixKey = this.prefixKey.bind(this)
+    this.unprefixKey = this.unprefixKey.bind(this)
 
     this.get = this.get.bind(this)
     this.set = this.set.bind(this)
@@ -55,6 +56,16 @@ export default class RedisSdk {
     const hasPrefix = key.indexOf(prefixPattern) === 0
     const prefixedKey = (!hasPrefix && `${prefixPattern}${key}`) || key
     return prefixedKey
+  }
+
+  unprefixKey (key = '') {
+    if (typeof key !== 'string') { return '' }
+
+    const { KEY_PREFIX } = this
+    const prefixPattern = `${KEY_PREFIX}__`
+    const hasPrefix = key.indexOf(prefixPattern) === 0
+    const unprefixedKey = (!hasPrefix && key.split(prefixPattern)[1]) || key
+    return unprefixedKey
   }
 
   async get (key = '', options) {
@@ -120,7 +131,8 @@ export default class RedisSdk {
 
     // Implement Logic
     const searchPatten = this.prefixKey(pattern)
-    const values = await client.keys(searchPatten)
+    const prefixedKeys = await client.keys(searchPatten)
+    const values = prefixedKeys.map(this.unprefixKey)
     return values
   }
 
