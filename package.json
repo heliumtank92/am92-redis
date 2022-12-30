@@ -1,6 +1,6 @@
 {
   "name": "@am92/redis",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Redis SDK",
   "type": "module",
   "main": "src/RedisSdk.mjs",
@@ -24,8 +24,7 @@
   ],
   "license": "MIT",
   "exports": {
-    ".": "./src/RedisSdk.mjs",
-    "./redisClientManager": "./src/redisClientManager.mjs"
+    ".": "./src/RedisSdk.mjs"
   },
   "dependencies": {
     "redis": "^4.5.1"
