@@ -1,7 +1,7 @@
 import { createClient as createRedisClient } from 'redis'
-import REDIS_CONFIG from './REDIS_CONFIG.mjs'
+import CONFIG from './CONFIG.mjs'
 
-const { CONNECTION_CONFIG } = REDIS_CONFIG
+const { CONNECTION_CONFIG } = CONFIG
 
 const redisClientManager = {
   connect,

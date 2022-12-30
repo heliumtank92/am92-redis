@@ -44,9 +44,9 @@ if (CHECK_SERVER_IDENTITY) {
   CONNECTION_CONFIG.tls = { checkServerIdentity: () => undefined }
 }
 
-const REDIS_CONFIG = {
+const CONFIG = {
   CONNECTION_CONFIG,
   KEY_PREFIX: REDIS_KEY_PREFIX
 }
 
-export default REDIS_CONFIG
+export default CONFIG
