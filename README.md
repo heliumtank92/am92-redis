@@ -19,7 +19,6 @@ This package provides the following functionalities:
 ## Table of Content
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
-- [Connecting to Redis](#connecting-to-redis)
 - [Creating a Redis SDK Instance](#creating-a-redis-sdk-instance)
   - [Properties of RedisSdk Instance](#properties-of-redissdk-instance)
   - [Methods of RedisSdk Instance](#methods-of-redissdk-instance)
@@ -52,17 +51,6 @@ export REDIS_AUTH=
 * *If 'REDIS_ENABLED' is set to 'true', 'REDIS_HOST' and 'REDIS_PORT' are required*
 * *If 'REDIS_AUTH_ENABLED' is set to 'true', 'REDIS_AUTH'is required*
 * *'REDIS_KEY_PREFIX' prepends all redis keys with the specified value*
-
-<br />
-
-## Connecting to Redis
-Redis needs to be connected before the 'RedisSdk' methods can executed. The connection can be established as shown below:
-```javascript
-import redisClientManager from '@am92/redis/redisClientManager'
-await redisClientManager.connect()
-```
-
-*Note: Establish this connection only if you set the environment variable 'REDIS_ENABLED' value to 'true'.*
 
 <br />
 
