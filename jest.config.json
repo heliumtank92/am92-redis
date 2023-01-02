@@ -1,0 +1,7 @@
+{
+  "verbose": true,
+  "collectCoverage": true,
+  "transform": {
+    "\\.m?[jt]sx?$": "babel-jest"
+  }
+}
