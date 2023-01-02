@@ -1,22 +1,19 @@
-import redisClientManager from './redisClientManager.mjs'
-
-const { connect, releaseClient, getClient } = redisClientManager
+import clientManager from './clientManager.mjs'
+import CONFIG from './CONFIG.mjs'
 
 export default class RedisSdk {
   constructor (config = {}) {
-    const {
-      CONNECTION_CONFIG,
-      KEY_PREFIX = ''
-    } = config
+    const { CONNECTION_CONFIG, KEY_PREFIX = '' } = config
 
-    this.CONNECTION_CONFIG = CONNECTION_CONFIG
-    this.KEY_PREFIX = KEY_PREFIX || ''
+    this.CONNECTION_CONFIG = CONNECTION_CONFIG || CONFIG.CONNECTION_CONFIG
+    this.KEY_PREFIX = KEY_PREFIX || CONFIG.KEY_PREFIX
 
     // Method Hard-binding
     this.connect = this.connect.bind(this)
     this.disconnect = this.disconnect.bind(this)
     this.getClient = this.getClient.bind(this)
     this.prefixKey = this.prefixKey.bind(this)
+    this.unprefixKey = this.unprefixKey.bind(this)
 
     this.get = this.get.bind(this)
     this.set = this.set.bind(this)
@@ -34,30 +31,21 @@ export default class RedisSdk {
 
   async connect () {
     const { CONNECTION_CONFIG } = this
-    if (CONNECTION_CONFIG) {
-      this.client = await connect(CONNECTION_CONFIG)
-    } else {
-      console.log('[Info] Connection to Redis failed as no CONNECTION_CONFIG provided')
-    }
+    this.client = await clientManager.createClient(CONNECTION_CONFIG)
   }
 
   async disconnect (forced = false) {
-    const { client } = this
-    if (client) {
-      await releaseClient(client, forced)
+    if (this.client) {
+      await clientManager.releaseClient(this.client, forced)
       delete this.client
     } else {
-      console.log('[Info] Disconnection to Redis failed as no CONNECTION_CONFIG provided')
+      console.error('Disconnection to Redis failed as it is not connected')
     }
   }
 
   getClient () {
-    const { CONNECTION_CONFIG, client } = this
-
-    if (client) { return client }
-    if (!CONNECTION_CONFIG) { return getClient() }
-
-    throw new Error('[Error] Unable to get Redis Client as its not connected.')
+    if (this.client) { return this.client }
+    throw new Error('Unable to get Redis Client as its not connected')
   }
 
   prefixKey (key = '') {
@@ -68,6 +56,16 @@ export default class RedisSdk {
     const hasPrefix = key.indexOf(prefixPattern) === 0
     const prefixedKey = (!hasPrefix && `${prefixPattern}${key}`) || key
     return prefixedKey
+  }
+
+  unprefixKey (key = '') {
+    if (typeof key !== 'string') { return '' }
+
+    const { KEY_PREFIX } = this
+    const prefixPattern = `${KEY_PREFIX}__`
+    const hasPrefix = key.indexOf(prefixPattern) === 0
+    const unprefixedKey = (!hasPrefix && key.split(prefixPattern)[1]) || key
+    return unprefixedKey
   }
 
   async get (key = '', options) {
@@ -133,7 +131,8 @@ export default class RedisSdk {
 
     // Implement Logic
     const searchPatten = this.prefixKey(pattern)
-    const values = await client.keys(searchPatten)
+    const prefixedKeys = await client.keys(searchPatten)
+    const values = prefixedKeys.map(this.unprefixKey)
     return values
   }
 

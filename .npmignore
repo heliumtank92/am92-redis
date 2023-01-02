@@ -15,3 +15,5 @@ Thumbs.db
 coverage/
 profile/
 reports/
+tests/
+jest.config.js

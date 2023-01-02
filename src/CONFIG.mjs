@@ -9,39 +9,45 @@ const {
 } = process.env
 
 const ENABLED = REDIS_ENABLED === 'true'
-const AUTH_ENABLED = REDIS_AUTH_ENABLED === 'true'
-const CHECK_SERVER_IDENTITY = REDIS_CHECK_SERVER_IDENTITY === 'true'
+let CONNECTION_CONFIG = {}
 
-let REQUIRED_CONFIG = []
+const REQUIRED_CONFIG = []
+const MISSING_CONFIG = []
 
 if (ENABLED) {
-  REQUIRED_CONFIG = REQUIRED_CONFIG.concat(['REDIS_HOST', 'REDIS_PORT'])
-}
+  REQUIRED_CONFIG.push('REDIS_HOST')
+  REQUIRED_CONFIG.push('REDIS_PORT')
 
-if (ENABLED && AUTH_ENABLED) {
-  REQUIRED_CONFIG = REQUIRED_CONFIG.concat(['REDIS_AUTH'])
-}
+  const AUTH_ENABLED = REDIS_AUTH_ENABLED === 'true'
+  const CHECK_SERVER_IDENTITY = REDIS_CHECK_SERVER_IDENTITY === 'true'
 
-// Terminate Server if any Redis Configuration is missing
-REQUIRED_CONFIG.forEach(function (key) {
-  if (!process.env[key]) {
-    console.error('[Error] Missing Redis Config:', key)
-    return process.exit(1)
+  if (AUTH_ENABLED) {
+    REQUIRED_CONFIG.push('REDIS_AUTH')
   }
-})
 
-// Redis Configuration to required establish connection
-const CONNECTION_CONFIG = {
-  host: REDIS_HOST,
-  port: REDIS_PORT
-}
+  REQUIRED_CONFIG.forEach(function (key) {
+    if (!process.env[key]) {
+      MISSING_CONFIG.push(key)
+    }
+  })
 
-if (AUTH_ENABLED) {
-  CONNECTION_CONFIG.password = REDIS_AUTH
-}
+  if (MISSING_CONFIG.length) {
+    console.error(`[Error] Redis Config Missing: ${MISSING_CONFIG.join(', ')}`)
+    process.exit(1)
+  }
 
-if (CHECK_SERVER_IDENTITY) {
-  CONNECTION_CONFIG.tls = { checkServerIdentity: () => undefined }
+  CONNECTION_CONFIG = {
+    host: REDIS_HOST,
+    port: REDIS_PORT
+  }
+
+  if (AUTH_ENABLED) {
+    CONNECTION_CONFIG.password = REDIS_AUTH
+  }
+
+  if (CHECK_SERVER_IDENTITY) {
+    CONNECTION_CONFIG.tls = { checkServerIdentity: () => undefined }
+  }
 }
 
 const CONFIG = {
