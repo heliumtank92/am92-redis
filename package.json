@@ -1,6 +1,6 @@
 {
   "name": "@am92/redis",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Redis SDK",
   "type": "module",
   "main": "dist/RedisSdk.js",
