@@ -35,12 +35,8 @@ export default class RedisSdk {
   }
 
   async disconnect (forced = false) {
-    if (this.client) {
-      await clientManager.releaseClient(this.client, forced)
-      delete this.client
-    } else {
-      console.error('Disconnection to Redis failed as it is not connected')
-    }
+    await clientManager.releaseClient(this.client, forced)
+    delete this.client
   }
 
   getClient () {
