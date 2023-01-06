@@ -12,13 +12,15 @@ async function createClient (connectionConfig = {}) {
   const client = createRedisClient(connectionConfig)
 
   client.on('error', (error) => {
-    console.error(`[${SERVICE} Redis] Redis Connection Error`, error)
-    throw error
+    const logFunc = console.fatal || console.error
+    logFunc(`[${SERVICE} Redis] Redis Connection Error`, error)
+    process.exit(1)
   })
 
-  console.trace(`[${SERVICE} Redis] Establishing Redis Connection...`)
+  console.info(`[${SERVICE} Redis] Establishing Redis Connection...`)
   await client.connect()
-  console.info(`[${SERVICE} Redis] Redis Connection Established`)
+  const logFunc = console.success || console.info
+  logFunc(`[${SERVICE} Redis] Redis Connection Established`)
   return client
 }
 
