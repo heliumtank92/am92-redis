@@ -1,4 +1,7 @@
 const {
+  npm_package_name: pkgName = '',
+  npm_package_version: pkgVersion = '',
+
   REDIS_ENABLED = 'false',
   REDIS_AUTH_ENABLED = 'false',
   REDIS_CHECK_SERVER_IDENTITY = 'false',
@@ -7,6 +10,9 @@ const {
   REDIS_KEY_PREFIX = '',
   REDIS_AUTH = ''
 } = process.env
+
+const SERVICE = `${pkgName}@${pkgVersion}`
+const logFunc = console.fatal || console.error
 
 const ENABLED = REDIS_ENABLED === 'true'
 let CONNECTION_CONFIG = {}
@@ -32,7 +38,7 @@ if (ENABLED) {
   })
 
   if (MISSING_CONFIG.length) {
-    console.error(`[Error] Redis Config Missing: ${MISSING_CONFIG.join(', ')}`)
+    logFunc(`[${SERVICE} Redis] Redis Config Missing: ${MISSING_CONFIG.join(', ')}`)
     process.exit(1)
   }
 
@@ -43,6 +49,8 @@ if (ENABLED) {
 
   if (AUTH_ENABLED) {
     CONNECTION_CONFIG.password = REDIS_AUTH
+  } else {
+    console.warn(`[${SERVICE} Redis] Environment REDIS_AUTH is disabled.`)
   }
 
   if (CHECK_SERVER_IDENTITY) {
@@ -56,11 +64,5 @@ const CONFIG = {
 }
 
 export default CONFIG
-
-const {
-  npm_package_name: pkgName = '',
-  npm_package_version: pkgVersion = ''
-} = process.env
-const SERVICE = `${pkgName}@${pkgVersion}`
 
 export { SERVICE }
