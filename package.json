@@ -30,9 +30,8 @@
     ".": "./src/RedisSdk.mjs"
   },
   "dependencies": {
-    "redis": "^4.5.1"
+    "redis": "^4.6.4"
   },
-  "devDependencies": {},
   "keywords": [
     "redis",
     "node",
