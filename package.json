@@ -3,8 +3,8 @@
   "version": "1.0.14",
   "description": "Redis SDK",
   "type": "module",
-  "main": "index.mjs",
-  "module": "index.mjs",
+  "main": "./index.mjs",
+  "module": "./index.mjs",
   "scripts": {
     "test": "echo 'Error: no test specified'",
     "preversion": "pnpm test",
