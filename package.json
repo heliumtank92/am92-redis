@@ -3,8 +3,8 @@
   "version": "1.0.13",
   "description": "Redis SDK",
   "type": "module",
-  "main": "src/RedisSdk.mjs",
-  "module": "src/RedisSdk.mjs",
+  "main": "index.mjs",
+  "module": "index.mjs",
   "scripts": {
     "test": "echo 'Error: no test specified'",
     "preversion": "pnpm test",
@@ -27,7 +27,7 @@
   ],
   "license": "MIT",
   "exports": {
-    ".": "./src/RedisSdk.mjs"
+    ".": "./index.mjs"
   },
   "dependencies": {
     "redis": "^4.6.4"
