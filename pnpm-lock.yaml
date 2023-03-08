@@ -1,10 +1,14 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@types/node': ^18.14.6
   redis: ^4.6.4
 
 dependencies:
   redis: 4.6.4
+
+devDependencies:
+  '@types/node': 18.14.6
 
 packages:
 
@@ -56,6 +60,10 @@ packages:
     dependencies:
       '@redis/client': 1.5.5
     dev: false
+
+  /@types/node/18.14.6:
+    resolution: {integrity: sha512-93+VvleD3mXwlLI/xASjw0FzKcwzl3OdTCzm1LaRfqgS21gfFtK3zDXM5Op9TeeMsJVOaJ2VRDpT9q4Y3d0AvA==}
+    dev: true
 
   /cluster-key-slot/1.1.2:
     resolution: {integrity: sha512-RMr0FhtfXemyinomL4hrWcYJxmX6deFdCxpJzhDttxgO1+bcCnkk+9drydLVDmAMG7NE6aN/fl4F7ucU/90gAA==}
