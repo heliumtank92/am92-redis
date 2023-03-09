@@ -1,15 +1,27 @@
 {
   "name": "@am92/redis",
-  "version": "1.0.11",
+  "version": "1.1.0",
   "description": "Redis SDK",
   "type": "module",
-  "main": "src/RedisSdk.mjs",
-  "module": "src/RedisSdk.mjs",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.mts",
+      "import": "./src/index.mjs"
+    }
+  },
+  "types": "./types/index.d.mts",
+  "module": "./src/index.mjs",
+  "main": "./src/index.mjs",
+  "dependencies": {
+    "redis": "^4.6.4"
+  },
   "scripts": {
     "test": "echo 'Error: no test specified'",
+    "generate:types": "rm -rf types && npx -p typescript tsc",
     "preversion": "pnpm test",
     "version": "echo 'Versioning'",
-    "postversion": "git push && git push --tags"
+    "postversion": "git push && git push --tags && npm run publish:pkg",
+    "publish:pkg": "npm publish"
   },
   "repository": "git@github.com:heliumtank92/am92-redis.git",
   "homepage": "https://github.com/heliumtank92/am92-redis#readme",
@@ -26,13 +38,9 @@
     }
   ],
   "license": "MIT",
-  "exports": {
-    ".": "./src/RedisSdk.mjs"
+  "publishConfig": {
+    "access": "public"
   },
-  "dependencies": {
-    "redis": "^4.5.1"
-  },
-  "devDependencies": {},
   "keywords": [
     "redis",
     "node",
@@ -41,5 +49,8 @@
     "js",
     "javascript",
     "node-redis"
-  ]
+  ],
+  "devDependencies": {
+    "@types/node": "^18.14.6"
+  }
 }
