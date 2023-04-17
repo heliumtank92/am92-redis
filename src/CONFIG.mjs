@@ -43,8 +43,10 @@ if (ENABLED) {
   }
 
   CONNECTION_CONFIG = {
-    host: REDIS_HOST,
-    port: REDIS_PORT
+    socket: {
+      host: REDIS_HOST,
+      port: REDIS_PORT
+    }
   }
 
   if (AUTH_ENABLED) {
