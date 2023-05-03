@@ -41,7 +41,6 @@ The following environment variables need to be set to work with this package:
 ##### Redis Config
 export REDIS_ENABLED=false
 export REDIS_AUTH_ENABLED=false
-export REDIS_CHECK_SERVER_IDENTITY=false
 export REDIS_HOST=
 export REDIS_PORT=
 export REDIS_KEY_PREFIX=
