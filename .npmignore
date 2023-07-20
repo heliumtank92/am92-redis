@@ -16,3 +16,11 @@ coverage/
 profile/
 reports/
 tests/
+
+# Source
+src/
+tsconfig.json
+
+# Documentation
+docs/
+.compodocrc.json

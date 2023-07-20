@@ -1,12 +1,16 @@
-import clientManager from './clientManager.mjs'
-import CONFIG from './CONFIG.mjs'
+import { SetOptions } from 'redis'
+import ClientManager from './ClientManager'
+import CONFIG, { SERVICE } from './CONFIG'
+import { REDIS_CONFIG, RedisClient } from './TYPES'
 
 export default class RedisSdk {
-  constructor (config = {}) {
-    const { CONNECTION_CONFIG, KEY_PREFIX = '' } = config
+  CONFIG: REDIS_CONFIG
+  client: RedisClient
+  connected: boolean = false
 
-    this.CONNECTION_CONFIG = CONNECTION_CONFIG || CONFIG.CONNECTION_CONFIG
-    this.KEY_PREFIX = KEY_PREFIX || CONFIG.KEY_PREFIX
+  constructor(config: REDIS_CONFIG = CONFIG) {
+    this.CONFIG = config
+    this.client = ClientManager.createClient(config.CONNECTION_CONFIG)
 
     // Method Hard-binding
     this.connect = this.connect.bind(this)
@@ -29,69 +33,90 @@ export default class RedisSdk {
     this.exists = this.exists.bind(this)
   }
 
-  async connect () {
-    const { CONNECTION_CONFIG } = this
-    this.client = await clientManager.createClient(CONNECTION_CONFIG)
+  async connect(): Promise<void> {
+    console.info(`[${SERVICE} Redis] Establishing Redis Connection...`)
+    await this.client.connect()
+    const successLogFunc = console.success || console.info
+    successLogFunc(`[${SERVICE} Redis] Redis Connection Established`)
+    this.connected = true
   }
 
-  async disconnect (forced = false) {
-    await clientManager.releaseClient(this.client, forced)
-    delete this.client
+  async disconnect(forced: boolean = false): Promise<void> {
+    if (!this.connected) {
+      console.error(
+        `[${SERVICE} Redis] Disconnection to Redis failed as it is not connected`
+      )
+      return
+    }
+
+    await ClientManager.releaseClient(this.client, forced)
+    this.connected = false
   }
 
-  getClient () {
-    if (this.client) { return this.client }
+  getClient(): RedisClient {
+    if (this.connected) {
+      return this.client
+    }
     throw new Error('Unable to get Redis Client as its not connected')
   }
 
-  prefixKey (key = '') {
-    if (typeof key !== 'string') { return '' }
+  prefixKey(key: string = ''): string {
+    if (typeof key !== 'string') {
+      return ''
+    }
 
-    const { KEY_PREFIX } = this
+    const { KEY_PREFIX } = this.CONFIG
     const prefixPattern = `${KEY_PREFIX}__`
     const hasPrefix = key.indexOf(prefixPattern) === 0
     const prefixedKey = (!hasPrefix && `${prefixPattern}${key}`) || key
     return prefixedKey
   }
 
-  unprefixKey (key = '') {
-    if (typeof key !== 'string') { return '' }
+  unprefixKey(key: string = ''): string {
+    if (typeof key !== 'string') {
+      return ''
+    }
 
-    const { KEY_PREFIX } = this
+    const { KEY_PREFIX } = this.CONFIG
     const prefixPattern = `${KEY_PREFIX}__`
     const hasPrefix = key.indexOf(prefixPattern) === 0
     const unprefixedKey = (!hasPrefix && key.split(prefixPattern)[1]) || key
     return unprefixedKey
   }
 
-  async get (key = '', options) {
+  async get(key: string): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic
     const prefixedKey = this.prefixKey(key)
-    const value = await client.get(prefixedKey, options)
+    const value = await client.get(prefixedKey)
 
     // Return Value
     return value
   }
 
-  async set (key = '', value = '', options) {
+  async set(
+    key: string,
+    value: string = '',
+    options: SetOptions
+  ): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
-    await client.set(prefixedKey, value, options)
+    const returnValue = await client.set(prefixedKey, value, options)
+    return returnValue
   }
 
-  async getAndExpire (key = '', ttlInSecs, options) {
+  async getAndExpire(key: string, ttlInSecs: number) {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
-    const value = await client.get(prefixedKey, options)
+    const value = await client.get(prefixedKey)
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
@@ -100,28 +125,36 @@ export default class RedisSdk {
     return value
   }
 
-  async setAndExpire (key = '', value = '', ttlInSecs, options) {
+  async setAndExpire(
+    key: string,
+    value: string = '',
+    ttlInSecs: number,
+    options: SetOptions
+  ): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
-    await client.set(prefixedKey, value, options)
+    const returnValue = await client.set(prefixedKey, value, options)
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
+    return returnValue
   }
 
-  async del (key = '') {
+  async del(keys: string | string[]): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic
-    const prefixedKey = this.prefixKey(key)
-    await client.del(prefixedKey)
+    const prefixedKeys =
+      keys instanceof Array ? keys.map(this.prefixKey) : this.prefixKey(keys)
+    const deleteCount = await client.del(prefixedKeys)
+    return deleteCount
   }
 
-  async keys (pattern = '') {
+  async keys(pattern: string): Promise<string[]> {
     // Get Redis Client
     const client = this.getClient()
 
@@ -132,14 +165,13 @@ export default class RedisSdk {
     return values
   }
 
-  async delByPattern (pattern = '') {
+  async delByPattern(pattern: string): Promise<number> {
     const foundKeys = await this.keys(pattern)
-    const promises = foundKeys.map(this.del)
-    const response = await Promise.all(promises)
-    return response
+    const deleteCount = await this.del(foundKeys)
+    return deleteCount
   }
 
-  async incrBy (key = '', value = 0) {
+  async incrBy(key: string, value: number = 0): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
@@ -149,7 +181,11 @@ export default class RedisSdk {
     return incrValue
   }
 
-  async incrByAndExpire (key = '', value = 0, ttlInSecs) {
+  async incrByAndExpire(
+    key: string,
+    value = 0,
+    ttlInSecs: number
+  ): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
@@ -164,7 +200,7 @@ export default class RedisSdk {
     return incrValue
   }
 
-  async decrBy (key = '', value = 0) {
+  async decrBy(key: string, value: number = 0): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
@@ -174,7 +210,11 @@ export default class RedisSdk {
     return decrValue
   }
 
-  async decrByAndExpire (key = '', value = 0, ttlInSecs) {
+  async decrByAndExpire(
+    key: string,
+    value: number = 0,
+    ttlInSecs: number
+  ): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
@@ -189,18 +229,12 @@ export default class RedisSdk {
     return decrValue
   }
 
-  async exists (keys = []) {
+  async exists(keys: string[] = []): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic
-    let prefixedKeys
-    if (keys instanceof Array) {
-      prefixedKeys = keys.map(this.prefixKey)
-    } else {
-      prefixedKeys = [...arguments].map(this.prefixKey)
-    }
-
+    const prefixedKeys = keys.map(this.prefixKey)
     const keyCount = await client.exists(prefixedKeys)
     return keyCount
   }
