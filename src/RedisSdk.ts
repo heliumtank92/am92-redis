@@ -28,9 +28,9 @@ export default class RedisSdk {
    * @constructor
    * @param [config=CONFIG]
    */
-  constructor(config: REDIS_CONFIG = CONFIG) {
-    this.CONFIG = config
-    this.client = ClientManager.createClient(config.CONNECTION_CONFIG)
+  constructor(config?: REDIS_CONFIG) {
+    this.CONFIG = { ...CONFIG, ...config }
+    this.client = ClientManager.createClient(this.CONFIG.CONNECTION_CONFIG)
 
     // Method Hard-binding
     this.connect = this.connect.bind(this)
