@@ -3,11 +3,31 @@ import ClientManager from './ClientManager'
 import CONFIG, { SERVICE } from './CONFIG'
 import { REDIS_CONFIG, RedisClient } from './TYPES'
 
+/**
+ * Class to create an SDK which interacts with a Redis Instance
+ *
+ * @class
+ */
 export default class RedisSdk {
+  /**
+   * Redis Config used by the SDK
+   */
   CONFIG: REDIS_CONFIG
+  /**
+   * Redis Client used by the SDK
+   */
   client: RedisClient
+  /**
+   * Flag identifying if the connection has been established or not
+   */
   connected: boolean = false
 
+  /**
+   * Creates an instance of RedisSdk.
+   *
+   * @constructor
+   * @param [config=CONFIG]
+   */
   constructor(config: REDIS_CONFIG = CONFIG) {
     this.CONFIG = config
     this.client = ClientManager.createClient(config.CONNECTION_CONFIG)
@@ -33,6 +53,12 @@ export default class RedisSdk {
     this.exists = this.exists.bind(this)
   }
 
+  /**
+   * Establish a connection with the Redis Instance
+   *
+   * @async
+   * @returns
+   */
   async connect(): Promise<void> {
     console.info(`[${SERVICE} Redis] Establishing Redis Connection...`)
     await this.client.connect()
@@ -41,6 +67,13 @@ export default class RedisSdk {
     this.connected = true
   }
 
+  /**
+   * Releases the connection with the Redis Instance if established
+   *
+   * @async
+   * @param [forced=false]
+   * @returns
+   */
   async disconnect(forced: boolean = false): Promise<void> {
     if (!this.connected) {
       console.error(
@@ -53,6 +86,11 @@ export default class RedisSdk {
     this.connected = false
   }
 
+  /**
+   * Returns the Redis client as configured using `CONFIG`
+   *
+   * @returns
+   */
   getClient(): RedisClient {
     if (this.connected) {
       return this.client
@@ -60,6 +98,12 @@ export default class RedisSdk {
     throw new Error('Unable to get Redis Client as its not connected')
   }
 
+  /**
+   * Prefixes the Redis key with `CONFIG.KEY_PREFIX`
+   *
+   * @param [key='']
+   * @returns
+   */
   prefixKey(key: string = ''): string {
     if (typeof key !== 'string') {
       return ''
@@ -72,6 +116,12 @@ export default class RedisSdk {
     return prefixedKey
   }
 
+  /**
+   * Unprefixes the Redis key with `CONFIG.KEY_PREFIX`
+   *
+   * @param [key='']
+   * @returns
+   */
   unprefixKey(key: string = ''): string {
     if (typeof key !== 'string') {
       return ''
@@ -84,6 +134,13 @@ export default class RedisSdk {
     return unprefixedKey
   }
 
+  /**
+   * Gets the value of a Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @returns Value stored in Redis
+   */
   async get(key: string): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
@@ -96,9 +153,18 @@ export default class RedisSdk {
     return value
   }
 
+  /**
+   * Sets the value for a Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param value Value to be stored in Redis
+   * @param options Options as mentioned by 'set' method of Redis package
+   * @returns
+   */
   async set(
     key: string,
-    value: string = '',
+    value: string,
     options: SetOptions
   ): Promise<string | null> {
     // Get Redis Client
@@ -110,6 +176,14 @@ export default class RedisSdk {
     return returnValue
   }
 
+  /**
+   * Gets the value of a Redis key and sets the expiry of Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param ttlInSecs Redis key expiry in seconds
+   * @returns
+   */
   async getAndExpire(key: string, ttlInSecs: number) {
     // Get Redis Client
     const client = this.getClient()
@@ -125,9 +199,19 @@ export default class RedisSdk {
     return value
   }
 
+  /**
+   * Sets the value of a Redis key and sets the expiry of Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param value Value to be stored in Redis
+   * @param ttlInSecs Redis key expiry in seconds
+   * @param options Options as mentioned by 'set' method of Redis package
+   * @returns
+   */
   async setAndExpire(
     key: string,
-    value: string = '',
+    value: string,
     ttlInSecs: number,
     options: SetOptions
   ): Promise<string | null> {
@@ -143,6 +227,13 @@ export default class RedisSdk {
     return returnValue
   }
 
+  /**
+   * Deletes a Redis key or keys
+   *
+   * @async
+   * @param keys Redis key name or Array of Redis key names
+   * @returns
+   */
   async del(keys: string | string[]): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
@@ -154,6 +245,13 @@ export default class RedisSdk {
     return deleteCount
   }
 
+  /**
+   * Gets all Redis keys for a given key pattern
+   *
+   * @async
+   * @param pattern Redis key pattern
+   * @returns Array of Redis keys
+   */
   async keys(pattern: string): Promise<string[]> {
     // Get Redis Client
     const client = this.getClient()
@@ -165,12 +263,27 @@ export default class RedisSdk {
     return values
   }
 
+  /**
+   * Deletes all Redis keys for a given key pattern
+   *
+   * @async
+   * @param pattern Redis key pattern
+   * @returns
+   */
   async delByPattern(pattern: string): Promise<number> {
     const foundKeys = await this.keys(pattern)
     const deleteCount = await this.del(foundKeys)
     return deleteCount
   }
 
+  /**
+   * Increments the value of a Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param [value=0] Redis value to be incremented by
+   * @returns Incremented Redis value
+   */
   async incrBy(key: string, value: number = 0): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
@@ -181,6 +294,15 @@ export default class RedisSdk {
     return incrValue
   }
 
+  /**
+   * Increments the value of a Redis key and sets the expiry of Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param [value=0] Redis value to be incremented by
+   * @param ttlInSecs Redis key expiry in seconds
+   * @returns Incremented Redis value
+   */
   async incrByAndExpire(
     key: string,
     value = 0,
@@ -200,6 +322,14 @@ export default class RedisSdk {
     return incrValue
   }
 
+  /**
+   * Decrements the value of a Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param [value=0] Redis value to be decremented by
+   * @returns Decremented Redis value
+   */
   async decrBy(key: string, value: number = 0): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
@@ -210,6 +340,15 @@ export default class RedisSdk {
     return decrValue
   }
 
+  /**
+   * Decrements the value of a Redis key and sets the expiry of Redis key
+   *
+   * @async
+   * @param key Redis key name
+   * @param [value=0] Redis value to be decremented by
+   * @param ttlInSecs Redis key expiry in seconds
+   * @returns Decremented Redis value
+   */
   async decrByAndExpire(
     key: string,
     value: number = 0,
@@ -229,6 +368,13 @@ export default class RedisSdk {
     return decrValue
   }
 
+  /**
+   * Checks if Redis keys exist or not
+   *
+   * @async
+   * @param [keys=[]] Array of Redis key names
+   * @returns Returns '0' if key does not exist and '1' if exists
+   */
   async exists(keys: string[] = []): Promise<number> {
     // Get Redis Client
     const client = this.getClient()

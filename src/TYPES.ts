@@ -1,7 +1,18 @@
 import { RedisClientOptions, RedisClientType, RedisDefaultModules } from 'redis'
 
+/**
+ * Type definition of config object for RedisSdk Class
+ *
+ * @interface
+ */
 export interface REDIS_CONFIG {
+  /**
+   * Redis Connection Configuration as defined in 'redis' package
+   */
   CONNECTION_CONFIG: RedisClientOptions
+  /**
+   * String to prefix all Redis keys when using the RedisSdk instance
+   */
   KEY_PREFIX: string
 }
 
