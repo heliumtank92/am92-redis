@@ -26,7 +26,7 @@ export default class RedisSdk {
    * Creates an instance of RedisSdk.
    *
    * @constructor
-   * @param [config=CONFIG]
+   * @param [config]
    */
   constructor(config?: REDIS_CONFIG) {
     this.CONFIG = { ...CONFIG, ...config }
