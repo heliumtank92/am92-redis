@@ -68,8 +68,11 @@ import RedisSdk from '@am92/redis'
 
 const config = {
   CONNECTION_CONFIG: {
-    host: '',
-    port: '',
+    socket: {
+      host: '',
+      port: 6379,
+      tls: true
+    },
     password: ''
   }
   KEY_PREFIX: ''
