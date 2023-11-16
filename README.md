@@ -82,7 +82,7 @@ const redisSdk = new RedisSdk(config)
 export default redisSdk
 ```
 
-To manage redis connections for RedisSdk Instances with custom 'config', 'connect' and 'disconnect' Methods are provided and they can be called as shown below. The 'connect' method must be called before before using the RedisSdk Methods.
+To manage redis connections for RedisSdk Instances, 'connect' and 'disconnect' methods are provided and they can be called as shown below. The 'connect' method must be called before before using the RedisSdk Methods.
 
 ```javascript
 // To establish a connection
@@ -90,6 +90,9 @@ await redisSdk.connect()
 
 // To release the connection
 await redisSdk.disconnect()
+
+// To force release the connection
+await redisSdk.disconnect(true)
 ```
 
 <br />
