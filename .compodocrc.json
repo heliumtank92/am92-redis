@@ -1,0 +1,17 @@
+{
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/test.ts", "src/**/*.spec.ts", "src/app/file-to-exclude.ts"],
+  "output": "docs",
+  "name": "RedisSdk",
+  "silent": true,
+  "hideGenerator": true,
+  "disableSourceCode": true,
+  "disableInternal": true,
+  "navTabConfig": [
+    {
+      "id": "info",
+      "label": "Documentation"
+    }
+  ],
+  "theme": "gitbook"
+}

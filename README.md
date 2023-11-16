@@ -21,8 +21,6 @@ This package provides the following functionalities:
 - [Installation](#installation)
 - [Environment Variables](#environment-variables)
 - [Creating a Redis SDK Instance](#creating-a-redis-sdk-instance)
-  - [Properties of RedisSdk Instance](#properties-of-redissdk-instance)
-  - [Methods of RedisSdk Instance](#methods-of-redissdk-instance)
 - [Contributors](#contributors)
 - [Resources](#resources)
 - [License](#license)
@@ -70,8 +68,11 @@ import RedisSdk from '@am92/redis'
 
 const config = {
   CONNECTION_CONFIG: {
-    host: '',
-    port: '',
+    socket: {
+      host: '',
+      port: 6379,
+      tls: true
+    },
     password: ''
   }
   KEY_PREFIX: ''
@@ -81,7 +82,7 @@ const redisSdk = new RedisSdk(config)
 export default redisSdk
 ```
 
-To manage redis connections for RedisSdk Instances with custom 'config', 'connect' and 'disconnect' Methods are provided and they can be called as shown below. The 'connect' method must be called before before using the RedisSdk Methods.
+To manage redis connections for RedisSdk Instances, 'connect' and 'disconnect' methods are provided and they can be called as shown below. The 'connect' method must be called before before using the RedisSdk Methods.
 
 ```javascript
 // To establish a connection
@@ -89,214 +90,9 @@ await redisSdk.connect()
 
 // To release the connection
 await redisSdk.disconnect()
-```
 
-<br />
-
-### Properties of RedisSdk Instance
-| Properties                 | Description                       |
-| :------------------------- | :-------------------------------- |
-| redisSdk.CONNECTION_CONFIG | Connection Config used by the SDK |
-| redisSdk.KEY_PREFIX        | Redis Key Prefix used by the SDK  |
-
-<br />
-
-### Methods of RedisSdk Instance
-| Method                                                                    | Description                                             |
-| :------------------------------------------------------------------------ | :------------------------------------------------------ |
-| [redisSdk.get](#redissdkgetkey-options)                                   | Gets the value of a redis key                           |
-| [redisSdk.set](#redissdksetkey-value-options)                             | Sets the value for a redis key                          |
-| [redisSdk.getAndExpire](#redissdkgetandexpirekey-ttlinsecs-options)       | Gets the value of a redis key and sets its expiry       |
-| [redisSdk.setAndExpire](#redissdksetandexpirekey-value-ttlinsecs-options) | Sets the value of a redis key and sets its expiry       |
-| [redisSdk.del](#redissdkdelkey)                                           | Deletes a redis key                                     |
-| [redisSdk.keys](#redissdkkeyspattern)                                     | Gets all redis keys for a given key pattern             |
-| [redisSdk.delByPattern](#redissdkdelbypatternpattern)                     | Deletes all redis keys for a given key pattern          |
-| [redisSdk.incrBy](#redissdkincrbykey-value)                               | Increments the value of a redis key                     |
-| [redisSdk.incrByAndExpire](#redissdkincrbyandexpirekey-value-ttlinsecs)   | Increments the value of a redis key and sets its expiry |
-| [redisSdk.decrBy](#redissdkdecrbykey-value)                               | Decrements the value of a redis key                     |
-| [redisSdk.decrByAndExpire](#redissdkdecrbyandexpirekey-value-ttlinsecs)   | Decrements the value of a redis key and sets its expiry |
-| [redisSdk.exists](#redissdkexistskeys)                                    | Returns if keys exists or not                           |
-
-<br />
-
-#### redisSdk.get(key, options)<br />
-###### Arguments
-* key (String): Redis key name
-* options (Object): options as mentioned by 'get' method of redis package
-
-###### Returns
-* value (any): Value stored in redis
-
-###### Example
-```javascript
-const value = await redisSdk.get(key, options)
-```
-
-<br />
-
-#### redisSdk.set(key, value, options)<br />
-###### Arguments
-* key (String): Redis key name
-* value (any): Value to be stored in redis
-* options (Object): options as mentioned by 'set' method of redis package
-
-###### Returns
-* undefined
-
-###### Example
-```javascript
-await redisSdk.set(key, value, options)
-```
-
-<br />
-
-#### redisSdk.getAndExpire(key, ttlInSecs, options)<br />
-###### Arguments
-* key (String):  Redis key name
-* ttlInSecs (Number): Redis key expiry in seconds
-* options (Object): options as mentioned by 'get' method of redis package
-
-###### Returns
-* value (any): Value stored in redis
-
-###### Example
-```javascript
-const value = await redisSdk.getAndExpire(key, ttlInSecs, options)
-```
-
-<br />
-
-#### redisSdk.setAndExpire(key, value, ttlInSecs, options)<br />
-###### Arguments
-* key (String): Redis key name
-* value (any): Value to be stored in redis
-* ttlInSecs (Number): Redis key expiry in seconds
-* options (Object): options as mentioned by 'set' method of redis package
-
-###### Returns
-* undefined
-
-###### Example
-```javascript
-await redisSdk.setAndExpire(key, value, ttlInSecs, options)
-```
-
-<br />
-
-#### redisSdk.del(key)<br />
-###### Arguments
-* key (String): Redis key name
-
-###### Returns
-* undefined
-
-###### Example
-```javascript
-await redisSdk.del(key)
-```
-
-<br />
-
-#### redisSdk.keys(pattern)<br />
-###### Arguments
-* pattern (String): Redis key pattern
-
-###### Returns
-* keys (Array): Array of keys
-
-###### Example
-```javascript
-const keys = await redisSdk.keys(pattern)
-```
-
-<br />
-
-#### redisSdk.delByPattern(pattern)<br />
-###### Arguments
-* pattern (String): Redis key pattern
-
-###### Returns
-* undefined
-
-###### Example
-```javascript
-await redisSdk.delByPattern(pattern)
-```
-
-<br />
-
-#### redisSdk.incrBy(key, value)<br />
-###### Arguments
-* key (String): Redis key name
-* value (Number): Redis value to be incremented by *(Defaults to 0)*
-
-###### Returns
-* incrValue (Number): Incremented redis value
-
-###### Example
-```javascript
-const incrValue = await redisSdk.incrBy(key, value)
-```
-
-<br />
-
-#### redisSdk.incrByAndExpire(key, value, ttlInSecs)<br />
-###### Arguments
-* key (String): Redis key name
-* value (Number): Redis value to be incremented by *(Defaults to 0)*
-* ttlInSecs (Number): Redis key expiry in seconds
-
-###### Returns
-* incrValue (Number): Incremented redis value
-
-###### Example
-```javascript
-const incrValue = await redisSdk.incrByAndExpire(key, value, ttlInSecs)
-```
-
-<br />
-
-#### redisSdk.decrBy(key, value)<br />
-###### Arguments
-* key (String): Redis key name
-* value (Number): Redis value to be decremented by *(Defaults to 0)*
-
-###### Returns
-* decrValue (Number): Decremented redis value
-
-###### Example
-```javascript
-const decrValue = await redisSdk.decrBy(key, value)
-```
-
-<br />
-
-#### redisSdk.decrByAndExpire(key, value, ttlInSecs)<br />
-###### Arguments
-* key (String): Redis key name
-* value (Number): Redis value to be decremented by *(Defaults to 0)*
-* ttlInSecs (Number): Redis key expiry in seconds
-
-###### Returns
-* decrValue (Number): Decremented redis value
-
-###### Example
-```javascript
-const decrValue = await redisSdk.decrByAndExpire(key, value, ttlInSecs)
-```
-
-<br />
-
-#### redisSdk.exists(keys)<br />
-###### Arguments
-* keys (Array): Array of redis key names
-
-###### Returns
-* keyCount (Number): Returns '0' if key does not exist and '1' if exists
-
-###### Example
-```javascript
-const keyCount = await redisSdk.exists(keys)
+// To force release the connection
+await redisSdk.disconnect(true)
 ```
 
 <br />
