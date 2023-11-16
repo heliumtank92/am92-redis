@@ -165,7 +165,7 @@ export default class RedisSdk {
   async set(
     key: string,
     value: string,
-    options: SetOptions
+    options?: SetOptions
   ): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
@@ -213,7 +213,7 @@ export default class RedisSdk {
     key: string,
     value: string,
     ttlInSecs: number,
-    options: SetOptions
+    options?: SetOptions
   ): Promise<string | null> {
     // Get Redis Client
     const client = this.getClient()
@@ -305,7 +305,7 @@ export default class RedisSdk {
    */
   async incrByAndExpire(
     key: string,
-    value = 0,
+    value: number = 0,
     ttlInSecs: number
   ): Promise<number> {
     // Get Redis Client
@@ -313,7 +313,7 @@ export default class RedisSdk {
 
     // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
-    const incrValue = await client.incrBy(prefixedKey, value)
+    const incrValue = await client.incrBy(prefixedKey, value || 0)
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
@@ -359,7 +359,7 @@ export default class RedisSdk {
 
     // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
-    const decrValue = await client.decrBy(prefixedKey, value)
+    const decrValue = await client.decrBy(prefixedKey, value || 0)
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
@@ -375,12 +375,12 @@ export default class RedisSdk {
    * @param [keys=[]] Array of Redis key names
    * @returns Returns '0' if key does not exist and '1' if exists
    */
-  async exists(keys: string[] = []): Promise<number> {
+  async exists(keys: string[]): Promise<number> {
     // Get Redis Client
     const client = this.getClient()
 
     // Implement Logic
-    const prefixedKeys = keys.map(this.prefixKey)
+    const prefixedKeys = (keys || []).map(this.prefixKey)
     const keyCount = await client.exists(prefixedKeys)
     return keyCount
   }
