@@ -3,7 +3,7 @@ import ClientManager from './ClientManager'
 import { RedisSdkError } from './RedisSdkError'
 import CONFIG, { SERVICE } from './CONFIG'
 import { CLIENT_NOT_CONNECTED_ERROR } from './ERRORS'
-import { REDIS_CONFIG, RedisClient } from './TYPES'
+import { RedisSdkConfig, RedisClient } from './TYPES'
 
 /**
  * Class to create an SDK which interacts with a Redis Instance
@@ -14,7 +14,7 @@ export default class RedisSdk {
   /**
    * Redis Config used by the SDK
    */
-  CONFIG: REDIS_CONFIG
+  CONFIG: RedisSdkConfig
   /**
    * Redis Client used by the SDK
    */
@@ -30,7 +30,7 @@ export default class RedisSdk {
    * @constructor
    * @param [config]
    */
-  constructor(config?: REDIS_CONFIG) {
+  constructor(config?: RedisSdkConfig) {
     this.CONFIG = { ...CONFIG, ...config }
     this.client = ClientManager.createClient(this.CONFIG.CONNECTION_CONFIG)
 

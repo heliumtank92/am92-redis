@@ -75,7 +75,7 @@ customElements.define('compodoc-menu', class extends HTMLElement {
                         </div>
                         <ul class="links collapse " ${ isNormalMode ? ' id="interfaces-links"' : 'id="xs-interfaces-links"' }>
                             <li class="link">
-                                <a href="interfaces/REDIS_CONFIG.html" data-type="entity-link" >REDIS_CONFIG</a>
+                                <a href="interfaces/RedisSdkConfig.html" data-type="entity-link" >RedisSdkConfig</a>
                             </li>
                             <li class="link">
                                 <a href="interfaces/RedisSdkErrorMap.html" data-type="entity-link" >RedisSdkErrorMap</a>

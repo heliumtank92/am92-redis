@@ -5,7 +5,7 @@ import { RedisClientOptions, RedisClientType, RedisDefaultModules } from 'redis'
  *
  * @interface
  */
-export interface REDIS_CONFIG {
+export interface RedisSdkConfig {
   /**
    * Redis Connection Configuration as defined in 'redis' package
    */
