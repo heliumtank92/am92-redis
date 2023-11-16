@@ -1,5 +1,5 @@
 import { RedisClientOptions } from 'redis'
-import { REDIS_CONFIG } from './TYPES'
+import { RedisSdkConfig } from './TYPES'
 
 /** @ignore */
 const {
@@ -65,7 +65,7 @@ if (REDIS_ENABLED === 'true') {
 }
 
 /** @ignore */
-const CONFIG: REDIS_CONFIG = {
+const CONFIG: RedisSdkConfig = {
   CONNECTION_CONFIG,
   KEY_PREFIX: REDIS_KEY_PREFIX
 }
