@@ -1,0 +1,227 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>RedisSdk</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
+	   <link rel="stylesheet" href="./styles/style.css">
+        <link rel="stylesheet" href="./styles/dark.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top d-block d-sm-none">
+            <a href="./" class="navbar-brand">RedisSdk</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content getting-started">
+                   <div class="content-data">
+
+<h1>@am92/redis</h1>
+<p><a href="https://www.npmjs.com/package/@am92/redis"><img src="https://img.shields.io/npm/v/@am92/redis?style=for-the-badge" alt="npm version" class="img-responsive"></a>&nbsp;
+<a href="https://nodejs.org/api/esm.html"><img src="https://img.shields.io/badge/ECMAScript-Module%20Only-red?style=for-the-badge" alt="ECMAScript Module" class="img-responsive"></a>&nbsp;
+<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/npm/l/@am92/redis?color=yellow&style=for-the-badge" alt="License: MIT" class="img-responsive"></a>&nbsp;
+<a href="https://security.snyk.io/package/npm/@am92%2Fredis"><img src="https://img.shields.io/snyk/vulnerabilities/npm/@am92/redis?style=for-the-badge" alt="Vulnerabilities: Snyk" class="img-responsive"></a>&nbsp;
+<a href="https://npm-stat.com/charts.html?package=%40m92%2Fredis"><img src="https://img.shields.io/npm/dy/@am92/redis?style=for-the-badge" alt="Downloads" class="img-responsive"></a>
+<a href="https://bundlephobia.com/package/@am92/redis"><img src="https://img.shields.io/bundlephobia/minzip/@am92/redis?style=for-the-badge" alt="Bundle Size" class="img-responsive"></a></p>
+<br />
+
+<p>This is an SDK Wrapper which provides Redis functionalities to interact with a Redis Instance. This package uses <a href="https://www.npmjs.com/package/redis">Node-Redis</a> package using its v4.x.x version.</p>
+<p>This package provides the following functionalities:</p>
+<ul>
+<li>Redis Connection Helper</li>
+<li>Redis SDK Class</li>
+</ul>
+<br />
+
+<h2>Table of Content</h2>
+<ul>
+<li><a href="#installation">Installation</a></li>
+<li><a href="#environment-variables">Environment Variables</a></li>
+<li><a href="#creating-a-redis-sdk-instance">Creating a Redis SDK Instance</a></li>
+<li><a href="#contributors">Contributors</a></li>
+<li><a href="#resources">Resources</a></li>
+<li><a href="#license">License</a></li>
+</ul>
+<br />
+
+<h2>Installation</h2>
+<div><pre class="line-numbers"><code class="language-bash">$ npm install --save &#64;am92/redis</code></pre></div><br />
+
+<h2>Environment Variables</h2>
+<p>The following environment variables need to be set to work with this package:</p>
+<div><pre class="line-numbers"><code class="language-sh">##### Redis Config
+export REDIS_ENABLED=false
+export REDIS_AUTH_ENABLED=false
+export REDIS_HOST=
+export REDIS_PORT=
+export REDIS_KEY_PREFIX=
+export REDIS_AUTH=</code></pre></div><p><em>Note:</em></p>
+<ul>
+<li><em>If &#39;REDIS_ENABLED&#39; is set to &#39;true&#39;, &#39;REDIS_HOST&#39; and &#39;REDIS_PORT&#39; are required</em></li>
+<li><em>If &#39;REDIS_AUTH_ENABLED&#39; is set to &#39;true&#39;, &#39;REDIS_AUTH&#39;is required</em></li>
+<li><em>&#39;REDIS_KEY_PREFIX&#39; prepends all redis keys with the specified value</em></li>
+</ul>
+<br />
+
+<h2>Creating a Redis SDK Instance</h2>
+<div><pre class="line-numbers"><code class="language-javascript">import RedisSdk from &#39;&#64;am92/redis&#39;
+
+const redisSdk = new RedisSdk()
+export default redisSdk</code></pre></div><p>If you wish to pass your custom &#39;config&#39; for the RedisSdk, then you can build it as follows:
+<em>Note: You will have to call the redisSdk.connect() to establish a connection before using the RedisSdk Methods</em></p>
+<div><pre class="line-numbers"><code class="language-javascript">import RedisSdk from &#39;&#64;am92/redis&#39;
+
+const config = {
+  CONNECTION_CONFIG: {
+    socket: {
+      host: &#39;&#39;,
+      port: 6379,
+      tls: true
+    },
+    password: &#39;&#39;
+  }
+  KEY_PREFIX: &#39;&#39;
+}
+
+const redisSdk = new RedisSdk(config)
+export default redisSdk</code></pre></div><p>To manage redis connections for RedisSdk Instances, &#39;connect&#39; and &#39;disconnect&#39; methods are provided and they can be called as shown below. The &#39;connect&#39; method must be called before before using the RedisSdk Methods.</p>
+<div><pre class="line-numbers"><code class="language-javascript">// To establish a connection
+await redisSdk.connect()
+
+// To release the connection
+await redisSdk.disconnect()
+
+// To force release the connection
+await redisSdk.disconnect(true)</code></pre></div><br />
+
+<h2>Contributors</h2>
+<table>
+  <tbody>
+    <tr>
+      <td align="center">
+        <a href='https://github.com/ankitgandhi452'>
+          <img src="https://avatars.githubusercontent.com/u/8692027?s=400&v=4" width="100px;" alt="Ankit Gandhi"/>
+          <br />
+          <sub><b>Ankit Gandhi</b></sub>
+        </a>
+      </td>
+      <td align="center">
+        <a href='https://github.com/agarwalmehul'>
+          <img src="https://avatars.githubusercontent.com/u/8692023?s=400&v=4" width="100px;" alt="Mehul Agarwal"/>
+          <br />
+          <sub><b>Mehul Agarwal</b></sub>
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+<h2>Resources</h2>
+<ul>
+<li><a href="https://www.npmjs.com/package/redis">Node-Redis</a></li>
+</ul>
+<br />
+
+<h2>License</h2>
+<ul>
+<li><a href="https://opensource.org/licenses/MIT">MIT</a></li>
+</ul>
+<br />
+<br />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 0;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'getting-started';
+            var COMPODOC_CURRENT_PAGE_URL = 'index.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="./js/libs/custom-elements.min.js"></script>
+       <script src="./js/libs/lit-html.js"></script>
+
+       <script src="./js/menu-wc.js" defer></script>
+       <script nomodule src="./js/menu-wc_es5.js" defer></script>
+
+       <script src="./js/libs/bootstrap-native.js"></script>
+
+       <script src="./js/libs/es6-shim.min.js"></script>
+       <script src="./js/libs/EventDispatcher.js"></script>
+       <script src="./js/libs/promise.min.js"></script>
+       <script src="./js/libs/zepto.min.js"></script>
+
+       <script src="./js/compodoc.js"></script>
+
+       <script src="./js/tabs.js"></script>
+       <script src="./js/menu.js"></script>
+       <script src="./js/libs/clipboard.min.js"></script>
+       <script src="./js/libs/prism.js"></script>
+       <script src="./js/sourceCode.js"></script>
+          <script src="./js/search/search.js"></script>
+          <script src="./js/search/lunr.min.js"></script>
+          <script src="./js/search/search-lunr.js"></script>
+          <script src="./js/search/search_index.js"></script>
+       <script src="./js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
