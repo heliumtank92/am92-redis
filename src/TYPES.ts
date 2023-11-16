@@ -30,3 +30,21 @@ declare global {
     fatal?(...data: any[]): void
   }
 }
+
+/**
+ * Type defination for error map to be passed to XmlError.
+ */
+export interface RedisSdkErrorMap {
+  /**
+   * Overriding message string for RedisSdkError instance
+   */
+  message?: string
+  /**
+   * Overriding error code string for RedisSdkError instance
+   */
+  errorCode?: string
+  /**
+   * Overriding HTTP status code for RedisSdkError instance
+   */
+  statusCode?: number
+}

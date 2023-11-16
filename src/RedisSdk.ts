@@ -1,6 +1,8 @@
 import { SetOptions } from 'redis'
 import ClientManager from './ClientManager'
+import { RedisSdkError } from './RedisSdkError'
 import CONFIG, { SERVICE } from './CONFIG'
+import { CLIENT_NOT_CONNECTED_ERROR } from './ERRORS'
 import { REDIS_CONFIG, RedisClient } from './TYPES'
 
 /**
@@ -95,7 +97,7 @@ export default class RedisSdk {
     if (this.connected) {
       return this.client
     }
-    throw new Error('Unable to get Redis Client as its not connected')
+    throw new RedisSdkError(CLIENT_NOT_CONNECTED_ERROR)
   }
 
   /**
