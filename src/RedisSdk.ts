@@ -10,7 +10,7 @@ import { RedisSdkConfig, RedisClient } from './TYPES'
  *
  * @class
  */
-export default class RedisSdk {
+export class RedisSdk {
   /**
    * Redis Config used by the SDK
    */

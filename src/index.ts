@@ -1,5 +1,3 @@
-import RedisSdk from './RedisSdk'
-
-export * from './TYPES'
+export * from './RedisSdk'
 export * from './RedisSdkError'
-export default RedisSdk
+export * from './TYPES'
