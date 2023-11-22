@@ -54,7 +54,7 @@ export REDIS_AUTH=
 
 ## Creating a Redis SDK Instance
 ```javascript
-import RedisSdk from '@am92/redis'
+import { RedisSdk } from '@am92/redis'
 
 const redisSdk = new RedisSdk()
 export default redisSdk
@@ -64,7 +64,7 @@ If you wish to pass your custom 'config' for the RedisSdk, then you can build it
 *Note: You will have to call the redisSdk.connect() to establish a connection before using the RedisSdk Methods*
 
 ```javascript
-import RedisSdk from '@am92/redis'
+import { RedisSdk } from '@am92/redis'
 
 const config = {
   CONNECTION_CONFIG: {
