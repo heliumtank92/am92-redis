@@ -140,6 +140,18 @@
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
+                                <a href="#expire" >expire</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#expireAt" >expireAt</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#expireTime" >expireTime</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
                                 <a href="#get" >get</a>
                             </li>
                             <li>
@@ -148,6 +160,54 @@
                             </li>
                             <li>
                                 <a href="#getClient" >getClient</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hDel" >hDel</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hExists" >hExists</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hGet" >hGet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hGetAll" >hGetAll</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hIncrBy" >hIncrBy</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hKeys" >hKeys</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hLen" >hLen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hmGet" >hmGet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hSet" >hSet</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hSetNX" >hSetNX</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hStrLen" >hStrLen</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#hVals" >hVals</a>
                             </li>
                             <li>
                                     <span class="modifier">Async</span>
@@ -171,6 +231,10 @@
                             <li>
                                     <span class="modifier">Async</span>
                                 <a href="#setAndExpire" >setAndExpire</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Async</span>
+                                <a href="#ttl" >ttl</a>
                             </li>
                             <li>
                                 <a href="#unprefixKey" >unprefixKey</a>
@@ -209,6 +273,7 @@
                                                 <td>Name</td>
                                                     <td>Type</td>
                                                 <td>Optional</td>
+                                                    <td>Description</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -223,6 +288,10 @@
                                                             Yes
                                                     </td>
                                                     
+                                                        <td>
+                                                                <p>Redis SDK Configuration</p>
+
+                                                        </td>
                                                 </tr>
                                         </tbody>
                                     </table>
@@ -459,8 +528,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Decremented Redis value</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -572,8 +640,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Decremented Redis value</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -860,8 +927,285 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Returns &#39;0&#39; if key does not exist and &#39;1&#39; if exists</p>
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expire"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>expire</b></span>
+                        <a href="#expire"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>expire(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, ttlInSecs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, mode?: "NX" | "XX" | "GT" | "LT")</code>
+                </td>
+            </tr>
 
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the expiry of Redis key in seconds</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>ttlInSecs</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key expiry in seconds</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>mode</td>
+                                    <td>
+                                            <code>&quot;NX&quot; | &quot;XX&quot; | &quot;GT&quot; | &quot;LT&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Conditions when expiry should be set</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expireAt"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>expireAt</b></span>
+                        <a href="#expireAt"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>expireAt(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, unixInSecs: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, mode?: "NX" | "XX" | "GT" | "LT")</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the expiry of Redis key to Unix timestamp</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>unixInSecs</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>mode</td>
+                                    <td>
+                                            <code>&quot;NX&quot; | &quot;XX&quot; | &quot;GT&quot; | &quot;LT&quot;</code>
+                                    </td>
+
+                                    <td>
+                                        Yes
+                                    </td>
+
+
+                                    <td>
+                                        <p>Conditions when expiry should be set</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="expireTime"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>expireTime</b></span>
+                        <a href="#expireTime"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>expireTime(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the expiry of Redis key as Unix timestamp</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
                     </div>
                 </td>
             </tr>
@@ -933,8 +1277,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Value stored in Redis</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -1018,7 +1361,7 @@
                     <div>
                     </div>
                     <div class="io-description">
-                        <b>Returns : </b>    <code>unknown</code>
+                        <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1057,6 +1400,1054 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>RedisClient</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hDel"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hDel</b></span>
+                        <a href="#hDel"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hDel(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hExists"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hExists</b></span>
+                        <a href="#hExists"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hExists(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Determines whether a field exists in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hGet"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hGet</b></span>
+                        <a href="#hGet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hGet(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the value of a field in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string | undefined&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hGetAll"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hGetAll</b></span>
+                        <a href="#hGetAll"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hGetAll(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns all fields and values in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;literal type&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hIncrBy"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hIncrBy</b></span>
+                        <a href="#hIncrBy"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hIncrBy(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn&#39;t exist</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Default value</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                    </td>
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+                                    <td>
+                                        <code>0</code>
+                                    </td>
+
+                                    <td>
+                                        <p>Value to be incremented by</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hKeys"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hKeys</b></span>
+                        <a href="#hKeys"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hKeys(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns all fields in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hLen"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hLen</b></span>
+                        <a href="#hLen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hLen(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the number of fields in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hmGet"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hmGet</b></span>
+                        <a href="#hmGet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hmGet(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, fields: string[])</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the values of all fields in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>fields</td>
+                                    <td>
+                                            <code>string[]</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash fields</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string[]&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hSet"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hSet</b></span>
+                        <a href="#hSet"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hSet(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: string | number)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Creates or modifies the value of a field in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                            <code>string | number</code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash value</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hSetNX"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hSetNX</b></span>
+                        <a href="#hSetNX"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hSetNX(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, value: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Sets the value of a field in a hash only when the field doesn&#39;t exist</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>value</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash value</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hStrLen"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hStrLen</b></span>
+                        <a href="#hStrLen"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hStrLen(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, field: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns the length of the value of a field</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>field</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Hash field</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="hVals"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>hVals</b></span>
+                        <a href="#hVals"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>hVals(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Returns all values in a hash</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name of hash</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;string[]&gt;</code>
 
                     </div>
                     <div class="io-description">
@@ -1154,8 +2545,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Incremented Redis value</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -1267,8 +2657,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Incremented Redis value</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -1340,8 +2729,7 @@
 
                     </div>
                     <div class="io-description">
-                        <p>Array of Redis keys</p>
-
+                        
                     </div>
                 </td>
             </tr>
@@ -1631,6 +3019,78 @@
                     </div>
                     <div class="io-description">
                         <b>Returns : </b>    <code>Promise&lt;string | null&gt;</code>
+
+                    </div>
+                    <div class="io-description">
+                        
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ttl"></a>
+                    <span class="name">
+                        <span class="modifier">Async</span>
+                        <span ><b>ttl</b></span>
+                        <a href="#ttl"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                    <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>ttl(key: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Get the expiry of Redis key in seconds.</p>
+</div>
+
+                    <div class="io-description">
+                        <b>Parameters :</b>
+                        
+                        <table class="params">
+                            <thead>
+                                <tr>
+                                    <td>Name</td>
+                                    <td>Type</td>
+                                    <td>Optional</td>
+                                    <td>Description</td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>key</td>
+                                    <td>
+                                                <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                    </td>
+
+                                    <td>
+                                        No
+                                    </td>
+
+
+                                    <td>
+                                        <p>Redis key name</p>
+
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div>
+                    </div>
+                    <div class="io-description">
+                        <b>Returns : </b>    <code>Promise&lt;number&gt;</code>
 
                     </div>
                     <div class="io-description">
