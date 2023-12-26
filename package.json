@@ -1,6 +1,6 @@
 {
   "name": "@am92/redis",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Redis SDK",
   "sideEffects": false,
   "types": "dist/index.d.ts",

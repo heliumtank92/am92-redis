@@ -28,7 +28,7 @@ export class RedisSdk {
    * Creates an instance of RedisSdk.
    *
    * @constructor
-   * @param [config]
+   * @param [config] Redis SDK Configuration
    */
   constructor(config?: RedisSdkConfig) {
     this.CONFIG = { ...CONFIG, ...config }
@@ -43,6 +43,10 @@ export class RedisSdk {
 
     this.get = this.get.bind(this)
     this.set = this.set.bind(this)
+    this.expire = this.expire.bind(this)
+    this.expireAt = this.expireAt.bind(this)
+    this.expireTime = this.expireTime.bind(this)
+    this.ttl = this.ttl.bind(this)
     this.getAndExpire = this.getAndExpire.bind(this)
     this.setAndExpire = this.setAndExpire.bind(this)
     this.del = this.del.bind(this)
@@ -53,6 +57,19 @@ export class RedisSdk {
     this.decrBy = this.decrBy.bind(this)
     this.decrByAndExpire = this.decrByAndExpire.bind(this)
     this.exists = this.exists.bind(this)
+
+    this.hSet = this.hSet.bind(this)
+    this.hSetNX = this.hSetNX.bind(this)
+    this.hIncrBy = this.hIncrBy.bind(this)
+    this.hGet = this.hGet.bind(this)
+    this.hGetAll = this.hGetAll.bind(this)
+    this.hKeys = this.hKeys.bind(this)
+    this.hVals = this.hVals.bind(this)
+    this.hLen = this.hLen.bind(this)
+    this.hStrLen = this.hStrLen.bind(this)
+    this.hDel = this.hDel.bind(this)
+    this.hExists = this.hExists.bind(this)
+    this.hmGet = this.hmGet.bind(this)
   }
 
   /**
@@ -141,17 +158,12 @@ export class RedisSdk {
    *
    * @async
    * @param key Redis key name
-   * @returns Value stored in Redis
+   * @returns
    */
   async get(key: string): Promise<string | null> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic
     const prefixedKey = this.prefixKey(key)
     const value = await client.get(prefixedKey)
-
-    // Return Value
     return value
   }
 
@@ -169,13 +181,78 @@ export class RedisSdk {
     value: string,
     options?: SetOptions
   ): Promise<string | null> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const returnValue = await client.set(prefixedKey, value, options)
     return returnValue
+  }
+
+  /**
+   * Sets the expiry of Redis key in seconds
+   *
+   * @async
+   * @param key Redis key name
+   * @param ttlInSecs Redis key expiry in seconds
+   * @param [mode] Conditions when expiry should be set
+   * @returns
+   */
+  async expire(
+    key: string,
+    ttlInSecs: number,
+    mode?: 'NX' | 'XX' | 'GT' | 'LT'
+  ): Promise<boolean> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const isSet = await client.expire(prefixedKey, ttlInSecs, mode)
+    return isSet
+  }
+
+  /**
+   * Sets the expiry of Redis key to Unix timestamp
+   *
+   * @async
+   * @param key Redis key name
+   * @param ttlInSecs Redis key expiry in seconds
+   * @param [mode] Conditions when expiry should be set
+   * @returns
+   */
+  async expireAt(
+    key: string,
+    unixInSecs: number,
+    mode?: 'NX' | 'XX' | 'GT' | 'LT'
+  ): Promise<boolean> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const isSet = await client.expireAt(prefixedKey, unixInSecs, mode)
+    return isSet
+  }
+
+  /**
+   * Get the expiry of Redis key as Unix timestamp
+   *
+   * @async
+   * @param key Redis key name
+   * @returns
+   */
+  async expireTime(key: string): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const unixInSecs = await client.expireTime(prefixedKey)
+    return unixInSecs
+  }
+
+  /**
+   * Get the expiry of Redis key in seconds.
+   *
+   * @async
+   * @param key Redis key name
+   * @returns
+   */
+  async ttl(key: string): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const ttlInSecs = await client.ttl(prefixedKey)
+    return ttlInSecs
   }
 
   /**
@@ -186,18 +263,15 @@ export class RedisSdk {
    * @param ttlInSecs Redis key expiry in seconds
    * @returns
    */
-  async getAndExpire(key: string, ttlInSecs: number) {
-    // Get Redis Client
+  async getAndExpire(key: string, ttlInSecs: number): Promise<string | null> {
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const value = await client.get(prefixedKey)
+
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
 
-    // Return Value
     return value
   }
 
@@ -217,15 +291,14 @@ export class RedisSdk {
     ttlInSecs: number,
     options?: SetOptions
   ): Promise<string | null> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const returnValue = await client.set(prefixedKey, value, options)
+
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
+
     return returnValue
   }
 
@@ -237,10 +310,7 @@ export class RedisSdk {
    * @returns
    */
   async del(keys: string | string[]): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic
     const prefixedKeys =
       keys instanceof Array ? keys.map(this.prefixKey) : this.prefixKey(keys)
     const deleteCount = await client.del(prefixedKeys)
@@ -252,13 +322,10 @@ export class RedisSdk {
    *
    * @async
    * @param pattern Redis key pattern
-   * @returns Array of Redis keys
+   * @returns
    */
   async keys(pattern: string): Promise<string[]> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic
     const searchPatten = this.prefixKey(pattern)
     const prefixedKeys = await client.keys(searchPatten)
     const values = prefixedKeys.map(this.unprefixKey)
@@ -284,13 +351,10 @@ export class RedisSdk {
    * @async
    * @param key Redis key name
    * @param [value=0] Redis value to be incremented by
-   * @returns Incremented Redis value
+   * @returns
    */
   async incrBy(key: string, value: number = 0): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const incrValue = await client.incrBy(prefixedKey, value)
     return incrValue
@@ -303,24 +367,21 @@ export class RedisSdk {
    * @param key Redis key name
    * @param [value=0] Redis value to be incremented by
    * @param ttlInSecs Redis key expiry in seconds
-   * @returns Incremented Redis value
+   * @returns
    */
   async incrByAndExpire(
     key: string,
     value: number = 0,
     ttlInSecs: number
   ): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const incrValue = await client.incrBy(prefixedKey, value || 0)
+
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
 
-    // Return Value
     return incrValue
   }
 
@@ -330,13 +391,10 @@ export class RedisSdk {
    * @async
    * @param key Redis key name
    * @param [value=0] Redis value to be decremented by
-   * @returns Decremented Redis value
+   * @returns
    */
   async decrBy(key: string, value: number = 0): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const decrValue = await client.decrBy(prefixedKey, value)
     return decrValue
@@ -349,24 +407,21 @@ export class RedisSdk {
    * @param key Redis key name
    * @param [value=0] Redis value to be decremented by
    * @param ttlInSecs Redis key expiry in seconds
-   * @returns Decremented Redis value
+   * @returns
    */
   async decrByAndExpire(
     key: string,
     value: number = 0,
     ttlInSecs: number
   ): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic and Handle TTL
     const prefixedKey = this.prefixKey(key)
     const decrValue = await client.decrBy(prefixedKey, value || 0)
+
     if (ttlInSecs) {
       await client.expire(prefixedKey, ttlInSecs)
     }
 
-    // Return Value
     return decrValue
   }
 
@@ -375,15 +430,199 @@ export class RedisSdk {
    *
    * @async
    * @param [keys=[]] Array of Redis key names
-   * @returns Returns '0' if key does not exist and '1' if exists
+   * @returns
    */
   async exists(keys: string[]): Promise<number> {
-    // Get Redis Client
     const client = this.getClient()
-
-    // Implement Logic
     const prefixedKeys = (keys || []).map(this.prefixKey)
     const keyCount = await client.exists(prefixedKeys)
     return keyCount
+  }
+
+  /**
+   * Creates or modifies the value of a field in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @param value Hash value
+   * @returns
+   */
+  async hSet(
+    key: string,
+    field: string,
+    value: string | number
+  ): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const isSet = await client.hSet(prefixedKey, field, value)
+    return isSet
+  }
+
+  /**
+   * Sets the value of a field in a hash only when the field doesn't exist
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @param value Hash value
+   * @returns
+   */
+  async hSetNX(key: string, field: string, value: string): Promise<boolean> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const isSet = await client.hSetNX(prefixedKey, field, value)
+    return isSet
+  }
+
+  /**
+   * Increments the integer value of a field in a hash by a number. Uses 0 as initial value if the field doesn't exist
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @param [value=0] Value to be incremented by
+   * @returns
+   */
+  async hIncrBy(
+    key: string,
+    field: string,
+    value: number = 0
+  ): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const incrValue = await client.hIncrBy(prefixedKey, field, value)
+    return incrValue
+  }
+
+  /**
+   * Returns the value of a field in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @returns
+   */
+  async hGet(key: string, field: string): Promise<string | undefined> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const value = await client.hGet(prefixedKey, field)
+    return value
+  }
+
+  /**
+   * Returns all fields and values in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @returns
+   */
+  async hGetAll(key: string): Promise<{ [x: string]: string }> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const hash = await client.hGetAll(prefixedKey)
+    return hash
+  }
+
+  /**
+   * Returns all fields in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @returns
+   */
+  async hKeys(key: string): Promise<string[]> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const fields = await client.hKeys(prefixedKey)
+    return fields
+  }
+
+  /**
+   * Returns all values in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @returns
+   */
+  async hVals(key: string): Promise<string[]> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const values = await client.hVals(prefixedKey)
+    return values
+  }
+
+  /**
+   * Returns the number of fields in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @returns
+   */
+  async hLen(key: string): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const fieldCount = await client.hLen(prefixedKey)
+    return fieldCount
+  }
+
+  /**
+   * Returns the length of the value of a field
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @returns
+   */
+  async hStrLen(key: string, field: string): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const length = await client.hStrLen(prefixedKey, field)
+    return length
+  }
+
+  /**
+   * Deletes one or more fields and their values from a hash. Deletes the hash if no fields remain
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @returns
+   */
+  async hDel(key: string, field: string): Promise<number> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const isDel = await client.hDel(prefixedKey, field)
+    return isDel
+  }
+
+  /**
+   * Determines whether a field exists in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param field Hash field
+   * @returns
+   */
+  async hExists(key: string, field: string): Promise<boolean> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const exists = await client.hExists(prefixedKey, field)
+    return exists
+  }
+
+  /**
+   * Returns the values of all fields in a hash
+   *
+   * @async
+   * @param key Redis key name of hash
+   * @param fields Hash fields
+   * @returns
+   */
+  async hmGet(key: string, fields: string[]): Promise<string[]> {
+    const client = this.getClient()
+    const prefixedKey = this.prefixKey(key)
+    const exists = await client.hmGet(prefixedKey, fields)
+    return exists
   }
 }
